@@ -16,4 +16,16 @@ async function addAuthor(name) {
   }
 }
 
-module.exports = { addAuthor };
+async function deleteAuthor(id) {
+  try {
+    const deleteAuthor = await prisma.author.delete({
+      where: { id: parseInt(id) },
+    });
+    return deleteAuthor;
+  } catch (err) {
+    console.error("Errror happend for delete author", err);
+    res.status(400).json({ message: err.message });
+  }
+}
+
+module.exports = { addAuthor, deleteAuthor };

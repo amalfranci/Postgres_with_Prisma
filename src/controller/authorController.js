@@ -11,3 +11,16 @@ exports.addAuthor = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+exports.deleteAuthor = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deleteBook = await authorService.deleteAuthor(id);
+    res
+      .status(200)
+      .json({ message: "author deleted successfully", author: deleteBook });
+  } catch (err) {
+    console.error(`error occured`, err);
+  }
+};
