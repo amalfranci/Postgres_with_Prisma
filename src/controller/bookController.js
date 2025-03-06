@@ -66,3 +66,19 @@ exports.updateBook = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+
+exports.deleteBook =async(req,res)=>{
+
+    try{
+        const {id} = req.params
+
+        const deletedBook = await bookService.deleteBook(id)
+        res.status(200).json({message:"Book deleted sucsesfully",deletedBook})
+    }
+    catch(error)
+    {   
+        console.error("Error occured when deleting a book",error)
+         res.status(400).json({message:"deletion failed check again"}) 
+    }
+}

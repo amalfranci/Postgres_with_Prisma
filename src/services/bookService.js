@@ -47,25 +47,53 @@ async function getBookById(id) {
   }
 }
 
-async function updateBook(id, title, publishedDate, authorId) {
-  console.log(id, title, authorId);
+async function updateBook(id, title, publishedDate) {
+  console.log(id, title);
   try {
-    const updatedBook = await prisma.book.update({
-      where: { id: parseInt(id) },
-      data: {
-        title,
-        publishedDate,
-        author: {
-          connect: { id: parseInt(authorId) },
-        },
-      },
-      include: { author: true },
-    });
+    // const updatedBook = await prisma.book.update({
+    //   where: { id: parseInt(id) },
+    //   data: {
+    //     title,
+    //     publishedDate,
+    //     author: {
+    //       connect: { id: parseInt(authorId) },
+    //     },
+    //   },
+    //   include: { author: true },
+    // });
 
-    return updatedBook;
+    // return updatedBook;
+    const updateBook = await prisma.$transaction(async (prisma) => {
+      const book = await prisma.book.findUnique({ where: { id:parseInt(id) } });
+      if (!book) {
+        throw new Error(`Book with id ${id} not found`);
+      }
+      return prisma.book.update({
+        where: { id: parseInt(id) },
+        data: {
+          title,
+          publishedDate,
+        },
+        include: { author: true },
+      });
+    });
+    return updateBook;
   } catch (error) {
     console.error("Error occur when updating Book", error);
   }
 }
 
-module.exports = { addBook, getBook, getBookById, updateBook };
+
+async function deleteBook(id) {
+  try {
+    const deletedBook = await prisma.book.delete({
+      where: { id: parseInt(id) },
+    });
+    return deletedBook;
+  } catch (error) {
+    console.error("Error occur when deleting Book", error);
+  }
+}
+
+
+module.exports = { addBook, getBook, getBookById, updateBook,deleteBook };
