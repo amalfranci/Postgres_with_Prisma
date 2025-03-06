@@ -21,4 +21,16 @@ async function addBook(title, publishedDate, authorId) {
   }
 }
 
-module.exports={addBook}
+async function getBook() {
+    try {
+        const allBooks = await prisma.book.findMany({
+            include: { author: true },
+        });
+
+        return allBooks;
+    } catch (err) {
+        console.error("Error found in getBooks", err);
+    }
+}
+
+module.exports = { addBook,getBook };
