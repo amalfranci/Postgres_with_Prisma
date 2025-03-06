@@ -1,9 +1,8 @@
-const express = require('express')
-const { addAuthor } = require('../controller/authorController')
+const express = require("express");
+const { addAuthor } = require("../controller/authorController");
 
+const router = express.Router();
 
-const router = express.Router()
+router.post("/add-author", addAuthor);
 
-router.post("/add-author",addAuthor)
-
-module.exports=router
+module.exports = router;

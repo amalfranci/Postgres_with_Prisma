@@ -16,4 +16,4 @@ async function addAuthor(name) {
   }
 }
 
-module.exports = {addAuthor}
+module.exports = { addAuthor };
