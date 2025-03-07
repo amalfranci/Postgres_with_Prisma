@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: root
       postgres_prisma_db: prisma-with-postgres
     ports:
-      - "5434:5432"
+      - "5434:5433"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -20,9 +20,9 @@ services:
     depends_on:
       - database
     environment:
-      - DATABASE_URL=postgresql://postgres:root@database:5432/prisma-with-postgres?schema=public
+      - DATABASE_URL=postgresql://postgres:root@database:5433/prisma-with-postgres?schema=public
     ports:
-      - "3003:3000"
+      - "3003:3010"
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
